@@ -1,0 +1,59 @@
+
+body {
+    background-color: rgb(238, 227, 203);
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: rgb(150, 126, 118);
+    cursor: default;
+}
+
+table{
+    /* display: inline-block; */
+    margin: 10px auto;
+    border-collapse: separate;
+    border-spacing: 7px;
+}
+
+.left-mines-num {
+    /* display: inline;
+    align-self: left;
+    margin-left: 50px; */
+    position: absolute;
+    left: 50px;
+
+}
+
+.time {
+    /* text-align: right;
+    margin-right: 50px; */
+    position: absolute;
+    right: 50px;
+}
+
+td{
+    background-color: rgb(215, 192, 174);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+td:hover{
+    background-color: rgb(183, 196, 207, 0.485);
+}
+
+button {
+    color: rgb(150, 126, 118);
+    border-radius: 10px;
+    border: 1px solid;
+    font-weight: bold;
+    font-size: 15px;
+    display: inline;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+.delete-at-restart {
+    margin-top: 20px;
+}
