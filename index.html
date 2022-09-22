@@ -7,15 +7,20 @@
     <title>Mine Sweeper</title>
     <link rel="stylesheet" href="css/main.css" />
 </head>
-<body onload="initGame()" oncontextmenu="return false;">
+<body onload="initGame()" oncontextmenu="return false">
     <h1>Mine Sweeper</h1>
-    <div class="left-mines-num"></div>
+    <div class="left-mines"></div>
+    <div class="time">0</div>
     <div class="restart">
-        <button onclick="initGame()">emoji</button>
+        <button class="emoji" onclick="initGame()"></button>
     </div>
-    <div class="time"></div>
-    <div class="buttons"></div>
-    </br></br>
+    <div class="levels">
+        <button onclick="changeLevel(1)">Beginner</button>
+        <button onclick="changeLevel(2)">Medium</button>
+        <button onclick="changeLevel(3)">Expert</button>
+    </div>
+    <div class="lives"></div>
+    <div class="hints"></div>
     <table>
     </table>
     <div class="game-over"></div>
