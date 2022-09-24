@@ -236,13 +236,6 @@ function checkGameOver(successOrFailure) {
             gGame.markedCount !== gLevel.MINES) &&
         (successOrFailure !== FAILURE || gHintIsOn)
     )
-        // if (
-        //     !(
-        //         gGame.shownCount + gGame.markedCount - (LIVES_NUM - gLives) ===
-        //             gLevel.SIZE ** 2 && gGame.markedCount === gLevel.MINES
-        //     ) &&
-        //     !(successOrFailure === FAILURE && !gHintIsOn)
-        // )
         return
     // Model
     gGame.isOn = false
