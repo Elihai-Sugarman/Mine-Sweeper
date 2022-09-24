@@ -28,7 +28,7 @@ var gBoard = []
 var gLevel = { SIZE: BEGGINER_SIZE, MINES: BEGGINER_MINES }
 var gGame
 var gTimeInterval
-var gHintIsOnt
+var gHintIsOn
 var gIsFirstClick
 var gLives
 
@@ -36,7 +36,7 @@ function initGame() {
     // Model
     gBoard = buildBoard()
     gGame = { isOn: true, shownCount: 0, markedCount: 0, secsPassed: 0 }
-    gHintIsOnt = false
+    gHintIsOn = false
     gIsFirstClick = true
     gLives = LIVES_NUM
 
@@ -138,16 +138,16 @@ function renderBoard() {
 
 function cellClicked(elCell, i, j) {
     var currCell = gBoard[i][j]
-    if (!gGame.isOn || currCell.isShown || (currCell.isMarked && !gHintIsOnt))
+    if (!gGame.isOn || currCell.isShown || (currCell.isMarked && !gHintIsOn))
         return
 
     if (gIsFirstClick) {
         firstClick(i, j)
         gIsFirstClick = false
-        if (gHintIsOnt) gGame.shownCount = -1
+        if (gHintIsOn) gGame.shownCount = -1
     }
 
-    if (gHintIsOnt) {
+    if (gHintIsOn) {
         showHint(i, j)
     }
 
@@ -158,7 +158,7 @@ function cellClicked(elCell, i, j) {
 
     // Model
     currCell.isShown = true
-    if (!gHintIsOnt) {
+    if (!gHintIsOn) {
         gGame.shownCount++
         if (currCell.isMine) {
             gGame.markedCount++
@@ -170,7 +170,7 @@ function cellClicked(elCell, i, j) {
     var value = currCell.minesAround
     if (currCell.isMine) {
         value = MINE
-        if (currCell.isMine) {
+        if (currCell.isMine && !gHintIsOn) {
             var elLeftMines = document.querySelector('.left-mines')
             elLeftMines.innerText = +elLeftMines.innerText - 1
         }
@@ -231,19 +231,25 @@ function cellMarked(elCell, i, j) {
 
 function checkGameOver(successOrFailure) {
     if (
-        !(
-            gGame.shownCount + gGame.markedCount - (LIVES_NUM - gLives) ===
-                gLevel.SIZE ** 2 && gGame.markedCount === gLevel.MINES
-        ) &&
-        !(successOrFailure === FAILURE && !gHintIsOnt)
+        (gGame.shownCount + gGame.markedCount - (LIVES_NUM - gLives) !==
+            gLevel.SIZE ** 2 ||
+            gGame.markedCount !== gLevel.MINES) &&
+        (successOrFailure !== FAILURE || gHintIsOn)
     )
+        // if (
+        //     !(
+        //         gGame.shownCount + gGame.markedCount - (LIVES_NUM - gLives) ===
+        //             gLevel.SIZE ** 2 && gGame.markedCount === gLevel.MINES
+        //     ) &&
+        //     !(successOrFailure === FAILURE && !gHintIsOn)
+        // )
         return
     // Model
     gGame.isOn = false
 
     // DOM
     var elEmoji = document.querySelector('.emoji')
-    if (successOrFailure === FAILURE && !gHintIsOnt) {
+    if (successOrFailure === FAILURE && !gHintIsOn) {
         if (gLives > 0) {
             gGame.isOn = true
             renderLives(gLives)
@@ -339,7 +345,7 @@ function useHint(hintIdx) {
     if (!gGame.isOn) return
 
     // Model
-    gHintIsOnt = true
+    gHintIsOn = true
 
     // DOM
     var elHintSign = document.querySelector(`.hint-${hintIdx}`)
@@ -376,7 +382,7 @@ function showHint(rowIdx, colIdx) {
 }
 
 function hideHintCells(cells) {
-    gHintIsOnt = false
+    gHintIsOn = false
     for (var cellIdx = 0; cellIdx < cells.length; cellIdx++) {
         var i = cells[cellIdx].i
         var j = cells[cellIdx].j
