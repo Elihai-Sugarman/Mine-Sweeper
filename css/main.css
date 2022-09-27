@@ -21,6 +21,7 @@ table {
     padding: 5px 10px;
     font-weight: bold;
     position: absolute;
+    border-radius: 10px;
 }
 
 .left-mines, .lives {
@@ -35,7 +36,7 @@ table {
     height: 33px;
 }
 
-td{
+td {
     background-color: rgb(215, 192, 174);
     width: 50px;
     max-width: 50px;
@@ -46,6 +47,16 @@ td{
 
 td:hover {
     background-color: rgb(183, 196, 207, 0.485);
+}
+
+.safe-click {
+    background-color: lightblue;
+    transition: background-color 1s;
+}
+
+.back-from-safe-click {
+    background-color: rgb(215, 192, 174);
+    transition: background-color 1s;
 }
 
 button {
@@ -61,10 +72,18 @@ button {
     width: 50px;
 }
 
-.levels button {
+.safe-click-button {
+    font-size: 13px;
+}
+
+.levels button, .safe-click-button button {
     height: 40px;
     width: 100px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+}
+
+.safe-click-button button {
+    width: 200px;
 }
 
 .restart button {

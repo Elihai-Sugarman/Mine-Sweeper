@@ -24,6 +24,8 @@ const HINTS_NUM = 3
 const LIFE_SIGN = '❤'
 const LIVES_NUM = 3
 
+const SAFE_CLICKS_NUM = 3
+
 var gBoard = []
 var gLevel = { SIZE: BEGGINER_SIZE, MINES: BEGGINER_MINES }
 var gGame
@@ -31,6 +33,7 @@ var gTimeInterval
 var gHintIsOn
 var gIsFirstClick
 var gLives
+var gSafeClickCount
 
 function initGame() {
     // Model
@@ -39,6 +42,7 @@ function initGame() {
     gHintIsOn = false
     gIsFirstClick = true
     gLives = LIVES_NUM
+    gSafeClickCount = SAFE_CLICKS_NUM
 
     // DOM
     renderBoard()
@@ -62,6 +66,9 @@ function initGame() {
         elHints.innerHTML += `<span class="hint-${i}" 
         onClick="useHint(${i})">${HINT_SIGN}</span>`
     }
+
+    var elSafeClicksNum = document.querySelector('.safe-clicks-num')
+    elSafeClicksNum.innerText = gSafeClickCount
 
     clearInterval(gTimeInterval)
 }
@@ -144,14 +151,13 @@ function cellClicked(elCell, i, j) {
     if (gIsFirstClick) {
         firstClick(i, j)
         gIsFirstClick = false
-        if (gHintIsOn) gGame.shownCount = -1
     }
 
     if (gHintIsOn) {
         showHint(i, j)
     }
 
-    if (!currCell.isMine && currCell.minesAround === 0) {
+    if (!currCell.isMine && currCell.minesAround === 0 && !gHintIsOn) {
         expandShown(elCell, i, j)
         return
     }
@@ -388,6 +394,44 @@ function hideHintCells(cells) {
         elCurrCell.innerText = gBoard[i][j].isMarked ? MARK : EMPTY
         elCurrCell.style.backgroundColor = 'rgb(215, 192, 174)'
     }
+}
+
+function findSafeClick() {
+    if (gSafeClickCount === 0 || !gGame.isOn) return
+
+    // Finding a safe click
+    var safeClicks = getSafeClicks()
+    if (safeClicks.length === 0) return
+    var idx = getRandomInt(0, safeClicks.length)
+    var i = safeClicks[idx].i
+    var j = safeClicks[idx].j
+
+    // Model
+    gSafeClickCount--
+
+    // DOM
+    var elSafeClicksNum = document.querySelector('.safe-clicks-num')
+    elSafeClicksNum.innerText = gSafeClickCount
+
+    var elCurrCell = document.querySelector(`.cell-${i}-${j}`)
+    elCurrCell.classList.add('safe-click')
+
+    setTimeout(() => {
+        elCurrCell.classList.add('back-from-safe-click')
+    }, 3000)
+}
+
+function getSafeClicks() {
+    var safeclicks = []
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[i].length; j++) {
+            var currCell = gBoard[i][j]
+            if (!currCell.isMarked && !currCell.isShown && !currCell.isMine) {
+                safeclicks.push({ i, j })
+            }
+        }
+    }
+    return safeclicks
 }
 
 function renderLives() {
