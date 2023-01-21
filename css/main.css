@@ -1,4 +1,3 @@
-
 body {
     background-color: rgb(238, 227, 203);
     text-align: center;
@@ -6,7 +5,7 @@ body {
     font-weight: bold;
     color: rgb(150, 126, 118);
     cursor: default;
-    min-width: 500px;
+    /* min-width: 500px; */
 }
 
 table {
@@ -15,7 +14,10 @@ table {
     border-spacing: 7px;
 }
 
-.left-mines, .time, .lives, .hints {
+.left-mines,
+.time,
+.lives,
+.hints {
     border: 2px solid rgb(150, 126, 118);
     width: 100px;
     padding: 5px 10px;
@@ -24,15 +26,18 @@ table {
     border-radius: 10px;
 }
 
-.left-mines, .lives {
-    left: 50px;
+.left-mines,
+.lives {
+    left: 8%;
 }
 
-.time, .hints {
-    right: 50px;
+.time,
+.hints {
+    right: 8%;
 }
 
-.hints, .lives {
+.hints,
+.lives {
     height: 33px;
 }
 
@@ -76,7 +81,8 @@ button {
     font-size: 13px;
 }
 
-.levels button, .safe-click-button button {
+.levels button,
+.safe-click-button button {
     height: 40px;
     width: 100px;
     margin-bottom: 10px;
